@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Server</title>
+</head>
+<body>
+<script src="../dist/index.js"></script>
+<script>
+  pm.CreateServer(window, {
+    foo: function () {
+      return Promise.resolve('bar');
+    }
+  });
+</script>
+</body>
+</html>

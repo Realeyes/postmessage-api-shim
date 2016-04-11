@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Client</title>
+</head>
+<body>
+<script src="../dist/index.js"></script>
+<script>
+  var serverFrame = document.createElement('iframe');
+  document.body.appendChild(serverFrame);
+  serverFrame.src = 'server-frame.html';
+
+  var client = pm.CreateClient(window, serverFrame.contentWindow);
+
+  serverFrame.onload = function () {
+    console.log('calling client.foo()');
+    client.foo().then(console.log.bind(console, 'got response: '));
+  };
+</script>
+</body>
+</html>
