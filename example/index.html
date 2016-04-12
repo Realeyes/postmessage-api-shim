@@ -11,7 +11,7 @@
   document.body.appendChild(serverFrame);
   serverFrame.src = 'server-frame.html';
 
-  var client = pm.CreateClient(window, serverFrame.contentWindow);
+  var client = pas.CreateClient(window, serverFrame.contentWindow);
 
   serverFrame.onload = function () {
     console.log('calling client.foo()');

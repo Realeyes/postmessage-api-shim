@@ -1,3 +1,3 @@
-import * as pm from './index';
+import * as pas from './index';
 
-window.pm = pm;
+window.pas = pas;
