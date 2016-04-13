@@ -4,7 +4,7 @@
   "description": "Promise-based postMessage API shim",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start test/karma.conf.js",
+    "test": "npm run build && ./node_modules/karma/bin/karma start test/karma.conf.js",
     "build": "browserify build.js -d -t [ babelify --presets [ es2015 ] ] > dist/index.js"
   },
   "keywords": [
@@ -27,5 +27,9 @@
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",
     "watchify": "^3.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Realeyes/postmessage-api-shim.git"
   }
 }
