@@ -1,7 +1,8 @@
 import {expect} from 'chai';
+import post from '../../lib/utils/post';
 
-describe('ololo', () => {
-    it('should be ololololish', () => {
-        expect('ololo').to.equal('ololo');
+describe('post', () => {
+    it('should be a function', () => {
+        expect(post).to.be.a('function');
     });
 });
