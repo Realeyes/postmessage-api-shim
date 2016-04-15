@@ -5,11 +5,14 @@
  */
 
 
-import {expect} from 'chai';
+import chai, {expect} from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+chai.use(sinonChai);
 
 
 describe('RPC integration', () => {
-    let client;
+    let client, server;
 
 
     before(done => {
@@ -17,7 +20,10 @@ describe('RPC integration', () => {
         document.body.appendChild(serverFrame);
         serverFrame.src = '/base/test/rpc/server-frame.html';
         client = pas.CreateClient(window, serverFrame.contentWindow, '123');
-        serverFrame.onload = () => done();
+        serverFrame.onload = () => {
+            server = serverFrame.contentWindow.api;
+            done();
+        };
     });
 
 
@@ -44,13 +50,36 @@ describe('RPC integration', () => {
     });
 
 
-    // describe('event', () => {
-    //     it('should be possible to subscribe to event', (done) => {
-    //         client.on('event', (payload) => {
-    //             expect(payload).to.equal('event-payload');
-    //             done();
-    //         });
-    //         server.emit('event', 'event-payload');
-    //     });
-    // });
+    describe('event', () => {
+        it('should be possible to subscribe to event', (done) => {
+            client.on('event', (payload) => {
+                expect(payload).to.equal('event-payload');
+                client.off('event');
+                done();
+            }).then(() => server.emit('event', 'event-payload'));
+        });
+
+
+        it('should be possible to unsubscribe from event', (done) => {
+            const spy = sinon.spy();
+
+            client.on('event', spy)
+                .then(() => {
+                    server.emit('event', 'event-payload');
+                    setTimeout(() => {
+                        expect(spy).to.have.been.calledWith('event-payload');
+
+                        client.off('event')
+                            .then(() => {
+                                server.emit('event', 'event-payload');
+                                setTimeout(() => {
+                                    expect(spy).to.have.been.calledOnce;
+
+                                    done();
+                                }, 100);
+                            });
+                    }, 100);
+                });
+        });
+    });
 });
