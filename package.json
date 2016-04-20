@@ -7,6 +7,9 @@
     "test": "npm run build && ./node_modules/karma/bin/karma start test/karma.conf.js",
     "build": "browserify build.js -d -t [ babelify --presets [ es2015 ] ] > dist/index.js"
   },
+  "browserify": {
+    "transform": [["babelify", { "presets": ["es2015"] }]]
+  },
   "keywords": [
     "postmessage",
     "api",
