@@ -19,7 +19,7 @@ describe('RPC integration', () => {
         const serverFrame = document.createElement('iframe');
         document.body.appendChild(serverFrame);
         serverFrame.src = '/base/test/rpc/server-frame.html';
-        client = pas.CreateClient(window, serverFrame.contentWindow, '123');
+        client = pas.CreateClient(window, serverFrame.contentWindow);
         serverFrame.onload = () => {
             server = serverFrame.contentWindow.api;
             done();
