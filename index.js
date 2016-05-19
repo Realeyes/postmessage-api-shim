@@ -1,2 +1,2 @@
-export { default as CreateServer } from './lib/rpc/server';
-export { default as CreateClient } from './lib/rpc/client';
+export { CreateServer } from './lib/rpc/server';
+export { CreateClient, ReleaseClient } from './lib/rpc/client';

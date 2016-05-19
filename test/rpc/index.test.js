@@ -12,11 +12,11 @@ chai.use(sinonChai);
 
 
 describe('RPC integration', () => {
-    let client, server;
+    let serverFrame, client, server;
 
 
     before(done => {
-        const serverFrame = document.createElement('iframe');
+        serverFrame = document.createElement('iframe');
         document.body.appendChild(serverFrame);
         serverFrame.src = '/base/test/rpc/server-frame.html';
         client = pas.CreateClient(window, serverFrame.contentWindow);
@@ -27,13 +27,19 @@ describe('RPC integration', () => {
     });
 
 
+    after(() => {
+        pas.ReleaseClient(client);
+        document.body.removeChild(serverFrame);
+    });
+
+
     describe('call', () => {
         it('should return a Promise', () => {
             expect(client.foo()).to.be.an.instanceOf(Promise);
         });
 
 
-        it('should reject a call to nonexistent method', (done) => {
+        it('should reject a call to nonexistent method', done => {
             client.nonexistent().then(null, (err) => {
                 expect(err).to.equal('Method nonexistent not found');
                 done();
@@ -41,8 +47,8 @@ describe('RPC integration', () => {
         });
 
 
-        it('should resolve a call to existing method with the result of the call', (done) => {
-            client.foo().then((res) => {
+        it('should resolve a call to existing method with the result of the call', done => {
+            client.foo().then(res => {
                 expect(res).to.equal('bar');
                 done();
             });
@@ -51,8 +57,8 @@ describe('RPC integration', () => {
 
 
     describe('event', () => {
-        it('should be possible to subscribe to event', (done) => {
-            client.on('event', (payload) => {
+        it('should be possible to subscribe to event', done => {
+            client.on('event', payload => {
                 expect(payload).to.equal('event-payload');
                 client.off('event');
                 done();
@@ -60,7 +66,7 @@ describe('RPC integration', () => {
         });
 
 
-        it('should be possible to unsubscribe from event', (done) => {
+        it('should be possible to unsubscribe from event', done => {
             const spy = sinon.spy();
 
             client.on('event', spy)
