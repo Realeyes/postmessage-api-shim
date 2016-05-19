@@ -77,6 +77,14 @@
   var api = {
     foo: function () {
       return Promise.resolve('bar');
+    },
+
+    long: function () {
+      return new Promise(function (resolve) {
+        setTimeout(function () {
+          resolve('ok');
+        }, 150);
+      });
     }
   };
 

@@ -1,5 +1,5 @@
 /**
- * RPC tests.
+ * pas.ReleaseClient() tests.
  *
  * @copyright Realeyes OU. All rights reserved.
  */
