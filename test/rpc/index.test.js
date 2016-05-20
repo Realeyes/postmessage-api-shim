@@ -15,7 +15,7 @@ describe('RPC integration', () => {
     let serverFrame, client, server;
 
 
-    before(done => {
+    beforeEach(done => {
         serverFrame = document.createElement('iframe');
         document.body.appendChild(serverFrame);
         serverFrame.src = '/base/test/rpc/server-frame.html';
@@ -27,7 +27,7 @@ describe('RPC integration', () => {
     });
 
 
-    after(() => {
+    afterEach(() => {
         pas.ReleaseClient(client);
         document.body.removeChild(serverFrame);
     });
