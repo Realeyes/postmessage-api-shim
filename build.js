@@ -6,5 +6,6 @@
  */
 
 import * as pas from './index';
+var Promise = require('es6-promise-polyfill').Promise;
 
 window.pas = pas;
