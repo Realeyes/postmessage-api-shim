@@ -78,8 +78,11 @@
 
 
         function apiBase() {
-
+            EventEmitter.call(this);
         }
+        apiBase.prototype = Object.create(EventEmitter.prototype);
+        apiBase.prototype.constructor = EventEmitter;
+
         apiBase.prototype.inherited = function () {
             return Promise.resolve('inherited method result');
         };
@@ -96,7 +99,7 @@
             });
         };
 
-        emitter(api);
+//        emitter(api);
 
         pas.CreateServer(window, api);
     }
