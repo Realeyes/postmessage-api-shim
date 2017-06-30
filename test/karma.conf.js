@@ -14,7 +14,13 @@ module.exports = function (config) {
             debug: true,
             transform: [['babelify', { 'presets': ['es2015'] }]]
         },
-        reporters: ['spec'],
+        reporters: ['spec', 'junit'],
+        junitReporter: {
+            outputDir: 'test-reports',
+            suite: '',
+            useBrowserName: true,
+            xmlVersion: null
+        },
         colors: true,
         browsers: ['Chrome', 'Firefox', 'IE'],
         // browsers: ['Chrome'],

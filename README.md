@@ -3,7 +3,7 @@
 ## Setup
 
 ```bash
-$ npm i
+$ npm install
 ```
 
 ## Build
@@ -24,7 +24,6 @@ to get a reference to `CreateServer` function you can use a ES6 module
 ```javascript
 import {CreateServer} from './'
 CreateServer(window, api);
-
 ```
 or use a browserified build, in this case `CreateServer` function will be under `pas` namespace.
 ```html
@@ -40,9 +39,9 @@ or use a browserified build, in this case `CreateServer` function will be under 
 
 to get a reference to `CreateClientAsync` function you can use a ES6 module
 ```javascript
+
 import {CreateClientAsync} from './'
 CreateClientAsync(window, serverFrame.contentWindow);
-
 ```
 or use a browserified build, in this case `CreateClientAsync` function will be under `pas` namespace.
 ```html
