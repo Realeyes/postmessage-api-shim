@@ -11,14 +11,10 @@
   document.body.appendChild(serverFrame);
   serverFrame.src = 'server-frame.html';
 
-  var client;
-
   serverFrame.onload = function () {
     console.log('calling client.foo()');
-    var client;
     pas.CreateClient(window, serverFrame.contentWindow)
-    .then(function(c) {
-        client = c;
+    .then(function(client) {
         client.foo().then(console.log.bind(console, 'got response: '));
     });
   };
