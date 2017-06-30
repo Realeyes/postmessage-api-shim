@@ -23,7 +23,7 @@ describe('pas.ReleaseClient() method', () => {
         document.body.appendChild(serverFrame);
         serverFrame.src = '/base/test/rpc/server-frame.html';
         serverFrame.onload = () => {
-            pas.CreateClient(window, serverFrame.contentWindow).then(client => {
+            pas.CreateClientAsync(window, serverFrame.contentWindow).then(client => {
                 client.foo().then((res) => {
                     expect(res).to.equal('bar');
                     pas.ReleaseClient(client);

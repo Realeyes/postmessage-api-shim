@@ -22,7 +22,7 @@ describe('RPC integration', () => {
         serverFrame.src = '/base/test/rpc/server-frame.html';
         serverFrame.onload = () => {
             server = serverFrame.contentWindow.api;
-            pas.CreateClient(window, serverFrame.contentWindow).then((c) => {
+            pas.CreateClientAsync(window, serverFrame.contentWindow).then((c) => {
                 client = c;
                 done();
             });

@@ -28,7 +28,7 @@ describe('RPC call timeout', () => {
 
     it('should not reject the call if the timeout does not exceed the limit', done => {
         const spy = sinon.spy();
-        pas.CreateClient(window, serverFrame.contentWindow, 200).then(c => {
+        pas.CreateClientAsync(window, serverFrame.contentWindow, 200).then(c => {
             client = c;
             client.long().then(spy);
             setTimeout(() => {
@@ -41,7 +41,7 @@ describe('RPC call timeout', () => {
     it('should reject the call if the timeout exceeds the limit', done => {
         const spy = sinon.spy();
         const rejectSpy = sinon.spy();
-        pas.CreateClient(window, serverFrame.contentWindow, 100).then(c => {
+        pas.CreateClientAsync(window, serverFrame.contentWindow, 100).then(c => {
             client = c;
             client.long().then(spy, rejectSpy);
             setTimeout(() => {
