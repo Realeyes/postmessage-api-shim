@@ -36,7 +36,7 @@ describe('RPC integration', () => {
     });
 
 
-    describe.only('call', () => {
+    describe('call', () => {
         it('should return a Promise', () => {
             // expect(client.foo()).to.be.an.instanceOf(Promise);
             expect(client.foo().then).to.exists;

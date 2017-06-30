@@ -9,91 +9,92 @@
 <script src="/base/dist/index.js"></script>
 
 <script>
-  window.onload = function() {
-      function EventEmitter() {
-      }
+    var api = {};
+    window.onload = function() {
+        function EventEmitter() {
+        }
 
-      EventEmitter.prototype.on = function (event, fn) {
-          this._callbacks = this._callbacks || {};
-          (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
-          return this;
-      };
+        EventEmitter.prototype.on = function (event, fn) {
+            this._callbacks = this._callbacks || {};
+            (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
+            return this;
+        };
 
-      EventEmitter.prototype.off = function (event, fn) {
-          this._callbacks = this._callbacks || {};
+        EventEmitter.prototype.off = function (event, fn) {
+            this._callbacks = this._callbacks || {};
 
-          // all
-          if (0 == arguments.length) {
-              this._callbacks = {};
-              return this;
-          }
+            // all
+            if (0 == arguments.length) {
+                this._callbacks = {};
+                return this;
+            }
 
-          // specific event
-          var callbacks = this._callbacks['$' + event];
-          if (!callbacks) return this;
+            // specific event
+            var callbacks = this._callbacks['$' + event];
+            if (!callbacks) return this;
 
-          // remove all handlers
-          if (1 == arguments.length) {
-              delete this._callbacks['$' + event];
-              return this;
-          }
+            // remove all handlers
+            if (1 == arguments.length) {
+                delete this._callbacks['$' + event];
+                return this;
+            }
 
-          // remove specific handler
-          var cb;
-          for (var i = 0; i < callbacks.length; i++) {
-              cb = callbacks[i];
-              if (cb === fn || cb.fn === fn) {
-                  callbacks.splice(i, 1);
-                  break;
-              }
-          }
-          return this;
-      };
+            // remove specific handler
+            var cb;
+            for (var i = 0; i < callbacks.length; i++) {
+                cb = callbacks[i];
+                if (cb === fn || cb.fn === fn) {
+                    callbacks.splice(i, 1);
+                    break;
+                }
+            }
+            return this;
+        };
 
-      EventEmitter.prototype.emit = function (event, var_args) {
-          this._callbacks = this._callbacks || {};
-          var_args = [].slice.call(arguments, 1);
-          var callbacks = this._callbacks['$' + event];
+        EventEmitter.prototype.emit = function (event, var_args) {
+            this._callbacks = this._callbacks || {};
+            var_args = [].slice.call(arguments, 1);
+            var callbacks = this._callbacks['$' + event];
 
-          if (callbacks) {
-              callbacks = callbacks.slice(0);
-              for (var i = 0, len = callbacks.length; i < len; ++i) {
-                  callbacks[i].apply(this, var_args);
-              }
-          }
+            if (callbacks) {
+                callbacks = callbacks.slice(0);
+                for (var i = 0, len = callbacks.length; i < len; ++i) {
+                    callbacks[i].apply(this, var_args);
+                }
+            }
 
-          return this;
-      };
+            return this;
+        };
 
-      function emitter(obj) {
-          for (var prop in EventEmitter.prototype) {
-              Object.defineProperty(obj, prop, {
-                  configurable: true,
-                  writable: true,
-                  value: EventEmitter.prototype[prop]
-              });
-          }
-      }
+        function emitter(obj) {
+            for (var prop in EventEmitter.prototype) {
+                Object.defineProperty(obj, prop, {
+                    configurable: true,
+                    writable: true,
+                    value: EventEmitter.prototype[prop]
+                });
+            }
+        }
 
 
-      var api = {
-          foo: function () {
-              return Promise.resolve('bar');
-          },
+        api = {
+            foo: function () {
+                return Promise.resolve('bar');
+            },
 
-          long: function () {
-              return new Promise(function (resolve) {
-                  setTimeout(function () {
-                      resolve('ok');
-                  }, 150);
-              });
-          }
-      };
+            long: function () {
+                return new Promise(function (resolve) {
+                    setTimeout(function () {
+                        resolve('ok');
+                    }, 150);
+                });
+            }
+        };
 
-      emitter(api);
+        emitter(api);
 
-      pas.CreateServer(window, api);
-  }
+        pas.CreateServer(window, api);
+    }
 
 </script>
 </body>

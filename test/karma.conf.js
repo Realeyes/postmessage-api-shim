@@ -17,7 +17,7 @@ module.exports = function (config) {
         reporters: ['spec'],
         colors: true,
         browsers: ['Chrome', 'Firefox', 'IE'],
-        // browsers: ['IE'],
+        // browsers: ['Chrome'],
         singleRun: true
     });
 };

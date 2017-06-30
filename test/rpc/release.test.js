@@ -23,16 +23,17 @@ describe('pas.ReleaseClient() method', () => {
         document.body.appendChild(serverFrame);
         serverFrame.src = '/base/test/rpc/server-frame.html';
         serverFrame.onload = () => {
-            const client = pas.CreateClient(window, serverFrame.contentWindow);
-            client.foo().then((res) => {
-                expect(res).to.equal('bar');
-                pas.ReleaseClient(client);
-                client.foo().then(spy);
-                setTimeout(() => {
-                    expect(spy).to.not.have.been.called;
-                    document.body.removeChild(serverFrame);
-                    done();
-                }, 100);
+            pas.CreateClient(window, serverFrame.contentWindow).then(client => {
+                client.foo().then((res) => {
+                    expect(res).to.equal('bar');
+                    pas.ReleaseClient(client);
+                    client.foo().then(spy);
+                    setTimeout(() => {
+                        expect(spy).to.not.have.been.called;
+                        document.body.removeChild(serverFrame);
+                        done();
+                    }, 100);
+                });
             });
         };
     });
