@@ -48,7 +48,7 @@ or use a browserified build, in this case `CreateClientAsync` function will be u
 ```html
 <script scr="dist/index.js"></script>
 <script>
-  pas.CreateClientAsync(window, , serverFrame.contentWindow).then(function(clientApi) {
+  pas.CreateClientAsync(window, serverFrame.contentWindow).then(function(clientApi) {
       // you can start calling methods on the clientApi
   });
 </script>
