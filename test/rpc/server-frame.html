@@ -77,18 +77,23 @@
         }
 
 
-        api = {
-            foo: function () {
-                return Promise.resolve('bar');
-            },
+        function apiBase() {
 
-            long: function () {
-                return new Promise(function (resolve) {
-                    setTimeout(function () {
-                        resolve('ok');
-                    }, 150);
-                });
-            }
+        }
+        apiBase.prototype.inherited = function () {
+            return Promise.resolve('inherited method result');
+        };
+
+        api = new apiBase();
+        api.foo =  function () {
+            return Promise.resolve('bar');
+        };
+        api.long =  function () {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve('ok');
+                }, 150);
+            });
         };
 
         emitter(api);
