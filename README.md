@@ -28,6 +28,7 @@ CreateServer(window, api);
 ```
 or use a browserified build, in this case `CreateServer` function will be under `pas` namespace.
 ```html
+<script scr="dist/promise.js"></script><!-- to be used in Internet Explorer -->
 <script scr="dist/index.js"></script>
 <script>
   pas.CreateServer(window, api);
@@ -37,17 +38,19 @@ or use a browserified build, in this case `CreateServer` function will be under 
 
 ## Usage of the client component
 
-to get a reference to `CreateClient` function you can use a ES6 module
+to get a reference to `CreateClientAsync` function you can use a ES6 module
 ```javascript
-import {CreateClient} from './'
-CreateClient(window, serverFrame.contentWindow);
+import {CreateClientAsync} from './'
+CreateClientAsync(window, serverFrame.contentWindow);
 
 ```
-or use a browserified build, in this case `CreateClient` function will be under `pas` namespace.
+or use a browserified build, in this case `CreateClientAsync` function will be under `pas` namespace.
 ```html
 <script scr="dist/index.js"></script>
 <script>
-  var clientApi = pas.CreateClient(window, , serverFrame.contentWindow);
+  pas.CreateClientAsync(window, serverFrame.contentWindow).then(function(clientApi) {
+      // you can start calling methods on the clientApi
+  });
 </script>
 ```
 
