@@ -3,7 +3,7 @@ module.exports = function (config) {
         basePath: '../',
         frameworks: ['mocha', 'browserify'],
         files: [
-            'dist/index.js',
+            'dist/*.js',
             'test/**/*.test.js',
             { pattern: 'test/rpc/server-frame.html', included: false }
         ],
@@ -16,7 +16,8 @@ module.exports = function (config) {
         },
         reporters: ['spec'],
         colors: true,
-        browsers: ['Chrome'],
+        browsers: ['Chrome', 'Firefox', 'IE'],
+        // browsers: ['Chrome'],
         singleRun: true
     });
 };

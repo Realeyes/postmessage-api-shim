@@ -5,6 +5,7 @@
  */
 
 
+const Promise = require('es6-promise-polyfill').Promise;
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
@@ -19,10 +20,12 @@ describe('RPC integration', () => {
         serverFrame = document.createElement('iframe');
         document.body.appendChild(serverFrame);
         serverFrame.src = '/base/test/rpc/server-frame.html';
-        client = pas.CreateClient(window, serverFrame.contentWindow);
         serverFrame.onload = () => {
             server = serverFrame.contentWindow.api;
-            done();
+            pas.CreateClientAsync(window, serverFrame.contentWindow).then((c) => {
+                client = c;
+                done();
+            });
         };
     });
 
@@ -35,15 +38,14 @@ describe('RPC integration', () => {
 
     describe('call', () => {
         it('should return a Promise', () => {
-            expect(client.foo()).to.be.an.instanceOf(Promise);
+            // expect(client.foo()).to.be.an.instanceOf(Promise);
+            expect(client.foo().then).to.exists;
         });
 
 
-        it('should reject a call to nonexistent method', done => {
-            client.nonexistent().then(null, (err) => {
-                expect(err).to.equal('Method nonexistent not found');
-                done();
-            });
+        it('should throw exception on a call to nonexistent method', done => {
+            expect(() => client.nonexistent()).to.throw();
+            done();
         });
 
 

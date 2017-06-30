@@ -6,12 +6,15 @@
 </head>
 <body>
 <script src="../dist/index.js"></script>
+<script src="../dist/promise.js"></script>
 <script>
-  pas.CreateServer(window, {
-    foo: function () {
-      return Promise.resolve('bar');
-    }
-  });
+  window.onload = function() {
+      pas.CreateServer(window, {
+        foo: function () {
+          return Promise.resolve('bar');
+        }
+      });
+  }
 </script>
 </body>
 </html>
