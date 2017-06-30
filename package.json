@@ -1,6 +1,6 @@
 {
   "name": "@realeyes/postmessage-api-shim",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Promise-based postMessage API shim",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,16 @@
     "build": "browserify build.js -d -t [ babelify --presets [ es2015 ] ] > dist/index.js && n-copy --source node_modules/es6-promise-polyfill --destination dist promise.js"
   },
   "browserify": {
-    "transform": [["babelify", { "presets": ["es2015"] }]]
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
   },
   "keywords": [
     "postmessage",
