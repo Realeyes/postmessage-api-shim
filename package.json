@@ -8,17 +8,7 @@
     "build": "browserify build.js -d -t [ babelify --presets [ es2015 ] --global ] > dist/index.js && n-copy --source node_modules/es6-promise-polyfill --destination dist promise.js"
   },
   "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "global": true,
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
+    "transform": [["babelify", { "presets": ["es2015"] }]]
   },
   "keywords": [
     "postmessage",
@@ -37,7 +27,6 @@
     "karma": "^0.13.22",
     "karma-browserify": "^5.0.3",
     "karma-chrome-launcher": "^0.2.3",
-    "karma-cli": "^1.0.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-ie-launcher": "^1.0.0",
     "karma-mocha": "^0.2.2",
