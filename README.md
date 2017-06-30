@@ -39,7 +39,6 @@ or use a browserified build, in this case `CreateServer` function will be under 
 
 to get a reference to `CreateClientAsync` function you can use a ES6 module
 ```javascript
-
 import {CreateClientAsync} from './'
 CreateClientAsync(window, serverFrame.contentWindow);
 ```
