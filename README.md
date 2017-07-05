@@ -27,13 +27,16 @@ CreateServer(window, api);
 ```
 or use a browserified build, in this case `CreateServer` function will be under `pas` namespace.
 ```html
-<script scr="dist/promise.js"></script><!-- to be used in Internet Explorer -->
 <script scr="dist/index.js"></script>
 <script>
   pas.CreateServer(window, api);
 </script>
 ```
-`CreateServer` function requires a `window` argument and `api` argument. `api` should be an object with methods that return native ES6 `Promise` instance. In can also be an instance of node.js `EventEmitter`. In this case the server will allow to subscribe to `api` events.
+`CreateServer` function requires a `window` argument and `api` argument. `api` should be an object with methods that
+return native ES6 `Promise` instance. In can also be an instance of node.js `EventEmitter`. In this case the server will
+allow to subscribe to `api` events.
+
+Please don't forget to add `Promise` polyfill for Internet Explorer 10 and lower.
 
 ## Usage of the client component
 
@@ -52,4 +55,6 @@ or use a browserified build, in this case `CreateClientAsync` function will be u
 </script>
 ```
 
-`CreateServer` function requires a `window` argument and `serverWindow` argument. After getting a `clientApi` instance you can transparently call `api` methods. All calls return a `Promise`. If the `api` implements an `EventEmitter` interface it is possible to subscribe/unsubscribe with `clientApi.on()` and  `clientApi.off()` methods.
+`CreateServer` function requires a `window` argument and `serverWindow` argument. After getting a `clientApi` instance
+you can transparently call `api` methods. All calls return a `Promise`. If the `api` implements an `EventEmitter`
+interface it is possible to subscribe/unsubscribe with `clientApi.on()` and  `clientApi.off()` methods.
