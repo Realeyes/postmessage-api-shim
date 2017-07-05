@@ -6,14 +6,14 @@
 </head>
 <body>
 <script src="../dist/index.js"></script>
-<script src="../dist/promise.js"></script>
+<script src="../node_modules/es6-promise-polyfill/promise.min.js"></script>
 <script>
   window.onload = function() {
-      pas.CreateServer(window, {
-        foo: function () {
-          return Promise.resolve('bar');
-        }
-      });
+    pas.CreateServer(window, {
+      foo: function () {
+        return Promise.resolve('bar');
+      }
+    });
   }
 </script>
 </body>

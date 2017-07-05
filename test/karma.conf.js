@@ -4,6 +4,7 @@ module.exports = function (config) {
         frameworks: ['mocha', 'browserify'],
         files: [
             'dist/*.js',
+            'node_modules/es6-promise-polyfill/*.js',
             'test/**/*.test.js',
             { pattern: 'test/rpc/server-frame.html', included: false }
         ],
