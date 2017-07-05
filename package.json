@@ -1,6 +1,6 @@
 {
   "name": "@realeyes/postmessage-api-shim",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Promise-based postMessage API shim",
   "main": "index.js",
   "scripts": {
@@ -35,8 +35,6 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
-    "es6-object-assign": "^1.1.0",
-    "es6-promise-polyfill": "^1.2.0",
     "karma": "^0.13.22",
     "karma-browserify": "^5.0.3",
     "karma-chrome-launcher": "^0.2.3",
@@ -58,5 +56,10 @@
   "bugs": {
     "url": "https://github.com/Realeyes/postmessage-api-shim/issues"
   },
-  "homepage": "https://github.com/Realeyes/postmessage-api-shim#readme"
+  "homepage": "https://github.com/Realeyes/postmessage-api-shim#readme",
+  "dependencies": {
+    "es6-object-assign": "^1.1.0",
+    "es6-promise-polyfill": "^1.2.0",
+    "events": "^1.1.1"
+  }
 }
