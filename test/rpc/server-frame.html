@@ -20,7 +20,26 @@
             return this;
         };
 
-        EventEmitter.prototype.off = function (event, fn) {
+        EventEmitter.prototype.removeListener = function (event, fn) {
+            this._callbacks = this._callbacks || {};
+
+            // specific event
+            var callbacks = this._callbacks['$' + event];
+            if (!callbacks) return this;
+
+            // remove specific handler
+            var cb;
+            for (var i = 0; i < callbacks.length; i++) {
+                cb = callbacks[i];
+                if (cb === fn || cb.fn === fn) {
+                    callbacks.splice(i, 1);
+                    break;
+                }
+            }
+            return this;
+        };
+
+        EventEmitter.prototype.removeAllListeners = function (event) {
             this._callbacks = this._callbacks || {};
 
             // all
@@ -39,16 +58,17 @@
                 return this;
             }
 
-            // remove specific handler
-            var cb;
-            for (var i = 0; i < callbacks.length; i++) {
-                cb = callbacks[i];
-                if (cb === fn || cb.fn === fn) {
-                    callbacks.splice(i, 1);
-                    break;
-                }
-            }
             return this;
+        };
+
+        EventEmitter.prototype.listenerCount = function (event) {
+            this._callbacks = this._callbacks || {};
+
+            // specific event
+            var callbacks = this._callbacks['$' + event];
+            if (!callbacks) return 0;
+
+            return callbacks.length;
         };
 
         EventEmitter.prototype.emit = function (event, var_args) {
