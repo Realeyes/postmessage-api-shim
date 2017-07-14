@@ -15,7 +15,6 @@ chai.use(sinonChai);
 describe('RPC integration', () => {
     let serverFrame, client, server;
 
-
     beforeEach(done => {
         serverFrame = document.createElement('iframe');
         document.body.appendChild(serverFrame);
@@ -29,7 +28,6 @@ describe('RPC integration', () => {
         };
     });
 
-
     afterEach(() => {
         pas.ReleaseClient(client);
         document.body.removeChild(serverFrame);
@@ -42,12 +40,10 @@ describe('RPC integration', () => {
             expect(client.foo().then).to.exists;
         });
 
-
         it('should throw exception on a call to nonexistent method', done => {
             expect(() => client.nonexistent()).to.throw();
             done();
         });
-
 
         it('should resolve a call to existing method with the result of the call', done => {
             client.foo().then(res => {
@@ -74,22 +70,22 @@ describe('RPC integration', () => {
             }).then(() => server.emit('event', 'event-payload'));
         });
 
-
         it('should be possible to unsubscribe from event', done => {
             const spy = sinon.spy();
 
             client.on('event', spy)
                 .then(() => {
+                    let listenerCount = server.listenerCount('event');
                     server.emit('event', 'event-payload');
                     setTimeout(() => {
                         expect(spy).to.have.been.calledWith('event-payload');
 
                         client.off('event')
                             .then(() => {
+                                expect(server.listenerCount('event')).to.equal(listenerCount - 1);
                                 server.emit('event', 'event-payload');
                                 setTimeout(() => {
                                     expect(spy).to.have.been.calledOnce;
-
                                     done();
                                 }, 100);
                             });
@@ -97,4 +93,21 @@ describe('RPC integration', () => {
                 });
         });
     });
+
+    describe('ReleaseClient', () => {
+        it('should unsubscribe the client of all subscribed events', done => {
+            const spy = sinon.spy();
+
+            client.on('event', spy)
+                .then(() => {
+                    expect(server.listenerCount('event')).to.equal(1);
+                    pas.ReleaseClient(client).then(() => {
+                        setTimeout(() => {
+                            expect(server.listenerCount('event')).to.equal(0);
+                            done();
+                        }, 100);
+                    });
+                });
+        })
+    })
 });
