@@ -137,21 +137,27 @@ module.exports = function (config) {
             throw `The key ${config.browserset}_browsers does not exists in karma config!`
         }
     }
+    else if(config.browser) {
+        config.browsers = [config.browser];
+    }
     else { //by default run tests in the browsers specified below
         console.info('-----------------------------------------------------------------------------------------------');
         if (process.env.BAMBOO) {
             config.reporters.push('bamboo');
             config.browsers = config.bs_browsers;
-            console.info('No browserset command line argument was given thus running test on Browserstack.');
+            console.info('No "--browserset" command line argument was given thus running test on Browserstack.');
         }
         else {
             config.browsers = config.local_browsers;
-            console.info('No browserset command line argument was given thus running test on local.');
+            console.info('No "--browserset" command line argument was given thus running test on local.');
         }
-        console.info('If you want to define the browserset to run the tests on please specify the browserset.');
+        console.info('If you want to define the browserset to run the tests on please specify the "--browserset".');
         console.info('Ex: ');
         console.info('  npm test -- --browserset=local');
         console.info('  npm test -- --browserset=bs');
+        console.info('You can also specify to run the test on a single browser only with the "--browser" argument');
+        console.info('Ex: ');
+        console.info('  npm test -- --browser=Chrome');
         console.info('------------------------------------------------------------------------------------------------');
     }
 
