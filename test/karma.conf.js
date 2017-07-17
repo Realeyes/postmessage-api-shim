@@ -29,13 +29,6 @@ module.exports = function (config) {
             project: 'postmessage-api-shim',
         },
         customLaunchers: {
-            bs_ie_9_win: {
-                base: 'BrowserStack',
-                browser: 'ie',
-                browser_version: '9',
-                os: 'WINDOWS',
-                os_version: '7'
-            },
             bs_ie_10_win: {
                 base: 'BrowserStack',
                 browser: 'ie',
@@ -113,7 +106,6 @@ module.exports = function (config) {
         },
         local_browsers: ['Chrome', 'Firefox', 'IE', 'Edge'],
         bs_browsers: [
-            'bs_ie_9_win',
             'bs_ie_10_win',
             'bs_ie_11_win',
             'bs_edge_14_win',
