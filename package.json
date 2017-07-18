@@ -1,6 +1,6 @@
 {
   "name": "@realeyes/postmessage-api-shim",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Promise-based postMessage API shim",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "api",
     "shim"
   ],
-  "author" : "David Klassen <david.klassen@realeyesit.com>",
+  "author": "David Klassen <david.klassen@realeyesit.com>",
   "contributors": [
     "Laszlo Vass <laszlo.vass@realeyesit.com>",
     "Anton Chueshkov <anton.chueshkov@realeyesit.com>",
