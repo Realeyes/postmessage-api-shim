@@ -1,5 +1,6 @@
 .idea
 .DS_Store
 .npmrc
+version.txt
 node_modules/
 test-reports/
