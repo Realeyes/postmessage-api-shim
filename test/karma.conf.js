@@ -25,6 +25,6 @@ module.exports = function (config) {
         colors: true,
         browsers: ['Chrome', 'Firefox', 'IE'],
         // browsers: ['Chrome'],
-        singleRun: true
+        singleRun: (config.debug !== undefined ? !config.debug : true),
     });
 };

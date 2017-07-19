@@ -93,21 +93,4 @@ describe('RPC integration', () => {
                 });
         });
     });
-
-    describe('ReleaseClient', () => {
-        it('should unsubscribe the client of all subscribed events', done => {
-            const spy = sinon.spy();
-
-            client.on('event', spy)
-                .then(() => {
-                    expect(server.listenerCount('event')).to.equal(1);
-                    pas.ReleaseClient(client).then(() => {
-                        setTimeout(() => {
-                            expect(server.listenerCount('event')).to.equal(0);
-                            done();
-                        }, 100);
-                    });
-                });
-        })
-    })
 });
