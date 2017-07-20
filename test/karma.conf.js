@@ -158,4 +158,16 @@ module.exports = function (config) {
         throw('[ERROR] To run tests on Browserstck please specify two environment variables: BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY!')
 
     }
+
+
+
+    // run static file servera to be able to load server iframe from different domain
+    let staticHttpServer = require('node-static');
+    let fileServer = new staticHttpServer.Server('./');
+    require('http').createServer(function (request, response) {
+        request.addListener('end', function () {
+            request.url = request.url.replace('/base',''); //strip of base/ prefix to be able to use same urls as karma's built-in server
+            fileServer.serve(request, response);
+        }).resume();
+    }).listen(8080); //TODO: port number should be random and passed to the client side
 };
