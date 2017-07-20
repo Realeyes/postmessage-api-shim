@@ -169,5 +169,5 @@ module.exports = function (config) {
             request.url = request.url.replace('/base',''); //strip of base/ prefix to be able to use same urls as karma's built-in server
             fileServer.serve(request, response);
         }).resume();
-    }).listen(8080); //TODO: port number should be random and passed to the client side
+    }).listen(9876); //TODO: port number should be random and passed to the client side
 };

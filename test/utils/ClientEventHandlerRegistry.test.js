@@ -15,7 +15,7 @@ describe('ClientEventHandlerRegistry should add', () => {
     it('a handler to an event', () => {
         const client = { id: 1 };
         _registry.add(client, 'event', () => {});
-        expect(Object.keys(_registry.get(client)).length).to.equal(1);
+        expect(_registry.get(client).length).to.equal(1);
         expect(_registry.get(client, 'event').length).to.equal(1);
     });
 
@@ -23,7 +23,7 @@ describe('ClientEventHandlerRegistry should add', () => {
         const client = { id: 1 };
         _registry.add(client, 'event', () => {});
         _registry.add(client, 'event', () => {});
-        expect(Object.keys(_registry.get(client)).length).to.equal(1);
+        expect(_registry.get(client).length).to.equal(2);
         expect(_registry.get(client, 'event').length).to.equal(2);
     });
 
@@ -31,7 +31,7 @@ describe('ClientEventHandlerRegistry should add', () => {
         const client = { id: 1 };
         _registry.add(client, 'event', () => {});
         _registry.add(client, 'event2', () => {});
-        expect(Object.keys(_registry.get(client)).length).to.equal(2);
+        expect(_registry.get(client).length).to.equal(2);
         expect(_registry.get(client, 'event').length).to.equal(1);
         expect(_registry.get(client, 'event2').length).to.equal(1);
     });
@@ -41,8 +41,8 @@ describe('ClientEventHandlerRegistry should add', () => {
         const client2 = { id: 2 };
         _registry.add(client, 'event', () => {});
         _registry.add(client2, 'event', () => {});
-        expect(Object.keys(_registry.get(client)).length).to.equal(1);
-        expect(Object.keys(_registry.get(client2)).length).to.equal(1);
+        expect(_registry.get(client).length).to.equal(1);
+        expect(_registry.get(client2).length).to.equal(1);
         expect(_registry.get(client, 'event').length).to.equal(1);
         expect(_registry.get(client2, 'event').length).to.equal(1);
     });
@@ -63,14 +63,15 @@ describe('ClientEventHandlerRegistry should delete', () => {
     });
 
     it('all handlers of a client for a specific event', () => {
-        expect(Object.keys(_registry.get(client)).length).to.equal(2);
+        expect(_registry.get(client).length).to.equal(3);
         _registry.delete(client, 'event');
-        expect(Object.keys(_registry.get(client)).length).to.equal(1);
+        expect(_registry.get(client).length).to.equal(1);
     });
 
     it('all handlers of a client', () => {
-        expect(Object.keys(_registry.get(client)).length).to.equal(2);
+        expect(_registry.get(client).length).to.equal(3);
         _registry.delete(client);
-        expect(Object.keys(_registry.get(client)).length).to.equal(0);
+        expect(_registry.get(client).length).to.equal(0);
+        expect(_registry.get(client2).length).to.equal(1);
     });
 });

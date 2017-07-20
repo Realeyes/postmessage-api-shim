@@ -52,7 +52,7 @@ describe('RPC integration', () => {
             });
         });
 
-        it('should resolve a call to inhereted method with the result of the call', done => {
+        it('should resolve a call to inherited method with the result of the call', done => {
             client.inherited().then(res => {
                 expect(res).to.not.be.null;
                 done();
