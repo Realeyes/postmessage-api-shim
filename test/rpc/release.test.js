@@ -33,61 +33,47 @@ describe('pas.ReleaseClient() method', () => {
 
     it('should be a function', () => {
         expect(pas.ReleaseClient).to.be.a('function');
+        //cleanup
         pas.ReleaseClient(client);
     });
 
 
-    it('should clean up the "message" event listeners for the client', done => {
+    it('should clean up the "message" event listeners for the client', () => {
         const spy = sinon.spy();
-        client.foo().then((res) => {
+        return client.foo().then((res) => {
             expect(res).to.equal('bar');
-            pas.ReleaseClient(client);
-            client.foo().then(spy);
-            setTimeout(() => {
+            return pas.ReleaseClient(client).then(() => {
+                client.foo().then(spy);
                 expect(spy).to.not.have.been.called;
-                done();
-            }, 100);
+            });
         });
     });
 
-    it('should unsubscribe the client of all subscribed events', done => {
+    it('should unsubscribe the client of all subscribed events', () => {
         const spy = sinon.spy();
 
-        client.on('event', spy)
+        return client.on('event', spy)
             .then(() => {
                 expect(server.listenerCount('event')).to.equal(1);
-                pas.ReleaseClient(client).then(() => {
-                    setTimeout(() => {
-                        expect(server.listenerCount('event')).to.equal(0);
-                        done();
-                    }, 100);
+                return pas.ReleaseClient(client).then(() => {
+                    expect(server.listenerCount('event')).to.equal(0);
                 });
             });
     });
 
-    it('should unsubscribe the client of all subscribed events but not touch others\' subscriptions', (done) => {
+    it('should unsubscribe the client of all subscribed events but not touch others\' subscriptions', () => {
         const spy = sinon.spy();
 
         server.on('event', () => {}); // create subscription directly not via the client
-        client.on('event', spy)
+        return client.on('event', spy)
             .then(() => {
-                try {
-                    expect(server.listenerCount('event')).to.equal(2);
-                }
-                catch (e) {
-                    throw e;
-                }
-                pas.ReleaseClient(client).then(() => {
-                    setTimeout(() => {
-                        try {
-                            expect(server.listenerCount('event')).to.equal(1);
-                        }
-                        catch(e) {
-                            throw e;
-                        }
-                        done();
-                    }, 100);
-                });
+                expect(server.listenerCount('event')).to.equal(2);
+            })
+            .then(() => {
+                return pas.ReleaseClient(client)
+                    .then(() => {
+                        expect(server.listenerCount('event')).to.equal(1);
+                    });
             });
     });
 });
