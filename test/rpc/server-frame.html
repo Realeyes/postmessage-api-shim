@@ -119,6 +119,12 @@
             });
         };
 
+        api.emitEvent = function(event){
+            return Promise.resolve().then(function() {
+                api.emit(event);
+            })
+        }
+
 //        emitter(api);
 
         pas.CreateServer(window, api);
