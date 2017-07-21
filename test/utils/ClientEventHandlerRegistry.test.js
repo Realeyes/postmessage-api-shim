@@ -48,7 +48,7 @@ describe('ClientEventHandlerRegistry should add', () => {
     });
 });
 
-describe('ClientEventHandlerRegistry should delete', () => {
+describe.only('ClientEventHandlerRegistry should delete', () => {
     let _registry, client, client2;
 
     beforeEach(done => {
@@ -66,6 +66,14 @@ describe('ClientEventHandlerRegistry should delete', () => {
         expect(_registry.get(client).length).to.equal(3);
         _registry.delete(client, 'event');
         expect(_registry.get(client).length).to.equal(1);
+    });
+
+    it('events more than once', () => {
+        expect(_registry.get(client).length).to.equal(3);
+        _registry.delete(client, 'event');
+        expect(_registry.get(client).length).to.equal(1);
+        _registry.delete(client, 'event2');
+        expect(_registry.get(client).length).to.equal(0);
     });
 
     it('all handlers of a client', () => {
