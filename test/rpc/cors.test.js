@@ -15,7 +15,7 @@ describe('In a cross-domain environment', () => {
     beforeEach(done => {
         serverFrame = document.createElement('iframe');
         document.body.appendChild(serverFrame);
-        serverFrame.src = 'http://localhost:9876/base/test/rpc/server-frame.html';
+        serverFrame.src = 'http://localhost:9889/base/test/rpc/server-frame.html';
         serverFrame.addEventListener('load', () => {
             setTimeout(() => { // in IE there is a timing issue without setTimeout....
                 pas.CreateClientAsync(window, serverFrame.contentWindow).then((c) => {
@@ -33,7 +33,7 @@ describe('In a cross-domain environment', () => {
     });
 
     it('the server iframe should be loaded from a different domain', () => {
-        expect(serverFrame.src.indexOf('http://localhost:9876/')).to.equal(0);
+        expect(serverFrame.src.indexOf('http://localhost:9889/')).to.equal(0);
     });
 
     it('client should be able to call server method', () => {

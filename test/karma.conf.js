@@ -8,6 +8,11 @@ module.exports = function (config) {
             'test/**/*.test.js',
             { pattern: 'test/rpc/server-frame.html', included: false }
         ],
+        client: {
+            mocha: {
+                timeout: 3000,
+            }
+        },
         preprocessors: {
             'test/**/*.test.js': ['browserify']
         },
@@ -27,6 +32,7 @@ module.exports = function (config) {
             username: process.env.BROWSERSTACK_USERNAME,
             accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
             project: 'postmessage-api-shim',
+            forcelocal: true,
         },
         customLaunchers: {
             bs_ie_10_win: {
@@ -118,7 +124,6 @@ module.exports = function (config) {
             'bs_firefox_54_win',
             'bs_firefox_latest_win'
         ],
-        singleRun: (config.debug !== undefined ? !config.debug : true),
     });
 
     if(config.browserset) {
@@ -128,9 +133,6 @@ module.exports = function (config) {
         else {
             throw `The key ${config.browserset}_browsers does not exists in karma config!`
         }
-    }
-    else if(config.browser) {
-        config.browsers = [config.browser];
     }
     else { //by default run tests in the browsers specified below
         console.info('-----------------------------------------------------------------------------------------------');
@@ -147,9 +149,9 @@ module.exports = function (config) {
         console.info('Ex: ');
         console.info('  npm test -- --browserset=local');
         console.info('  npm test -- --browserset=bs');
-        console.info('You can also specify to run the test on a single browser only with the "--browser" argument');
+        console.info('You can also specify to run the test on a single browser only with the "--browsers" argument');
         console.info('Ex: ');
-        console.info('  npm test -- --browser=Chrome');
+        console.info('  npm test -- --browsers=Chrome');
         console.info('------------------------------------------------------------------------------------------------');
     }
 
@@ -169,5 +171,5 @@ module.exports = function (config) {
             request.url = request.url.replace('/base',''); //strip of base/ prefix to be able to use same urls as karma's built-in server
             fileServer.serve(request, response);
         }).resume();
-    }).listen(9876); //TODO: port number should be random and passed to the client side
+    }).listen(9889); //TODO: port number should be random and passed to the client side
 };
