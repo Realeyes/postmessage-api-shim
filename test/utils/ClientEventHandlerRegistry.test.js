@@ -48,7 +48,7 @@ describe('ClientEventHandlerRegistry should add', () => {
     });
 });
 
-describe.only('ClientEventHandlerRegistry should delete', () => {
+describe('ClientEventHandlerRegistry should delete', () => {
     let _registry, client, client2;
 
     beforeEach(done => {
