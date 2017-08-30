@@ -1,6 +1,6 @@
 {
   "name": "@realeyes/postmessage-api-shim",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Promise-based postMessage API shim",
   "main": "index.js",
   "scripts": {
