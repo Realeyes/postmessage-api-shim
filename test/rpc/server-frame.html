@@ -1,135 +1,141 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Server</title>
+    <meta charset="UTF-8">
+    <title>Server</title>
 </head>
+
 <body>
-<script src="/base/node_modules/es6-promise-polyfill/promise.min.js"></script>
-<script src="/base/dist/index.js"></script>
+    <script src="/base/node_modules/es6-promise-polyfill/promise.min.js"></script>
+    <script src="/base/dist/index.js"></script>
 
-<script>
-    var api = {};
-    window.onload = function() {
-        function EventEmitter() {
-        }
+    <script>
+        var api = {};
+        window.onload = function () {
+            function EventEmitter() {}
 
-        EventEmitter.prototype.on = function (event, fn) {
-            this._callbacks = this._callbacks || {};
-            (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
-            return this;
-        };
+            EventEmitter.prototype.on = function (event, fn) {
+                this._callbacks = this._callbacks || {};
+                (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
+                return this;
+            };
 
-        EventEmitter.prototype.removeListener = function (event, fn) {
-            this._callbacks = this._callbacks || {};
+            EventEmitter.prototype.removeListener = function (event, fn) {
+                this._callbacks = this._callbacks || {};
 
-            // specific event
-            var callbacks = this._callbacks['$' + event];
-            if (!callbacks) return this;
+                // specific event
+                var callbacks = this._callbacks['$' + event];
+                if (!callbacks) return this;
 
-            // remove specific handler
-            var cb;
-            for (var i = 0; i < callbacks.length; i++) {
-                cb = callbacks[i];
-                if (cb === fn || cb.fn === fn) {
-                    callbacks.splice(i, 1);
-                    break;
+                // remove specific handler
+                var cb;
+                for (var i = 0; i < callbacks.length; i++) {
+                    cb = callbacks[i];
+                    if (cb === fn || cb.fn === fn) {
+                        callbacks.splice(i, 1);
+                        break;
+                    }
+                }
+                return this;
+            };
+
+            EventEmitter.prototype.removeAllListeners = function (event) {
+                this._callbacks = this._callbacks || {};
+
+                // all
+                if (0 == arguments.length) {
+                    this._callbacks = {};
+                    return this;
+                }
+
+                // specific event
+                var callbacks = this._callbacks['$' + event];
+                if (!callbacks) return this;
+
+                // remove all handlers
+                if (1 == arguments.length) {
+                    delete this._callbacks['$' + event];
+                    return this;
+                }
+
+                return this;
+            };
+
+            EventEmitter.prototype.listenerCount = function (event) {
+                this._callbacks = this._callbacks || {};
+
+                // specific event
+                var callbacks = this._callbacks['$' + event];
+                if (!callbacks) return 0;
+
+                return callbacks.length;
+            };
+
+            EventEmitter.prototype.emit = function (event, var_args) {
+                this._callbacks = this._callbacks || {};
+                var_args = [].slice.call(arguments, 1);
+                var callbacks = this._callbacks['$' + event];
+
+                if (callbacks) {
+                    callbacks = callbacks.slice(0);
+                    for (var i = 0, len = callbacks.length; i < len; ++i) {
+                        callbacks[i].apply(this, var_args);
+                    }
+                }
+
+                return this;
+            };
+
+            function emitter(obj) {
+                for (var prop in EventEmitter.prototype) {
+                    Object.defineProperty(obj, prop, {
+                        configurable: true,
+                        writable: true,
+                        value: EventEmitter.prototype[prop]
+                    });
                 }
             }
-            return this;
-        };
 
-        EventEmitter.prototype.removeAllListeners = function (event) {
-            this._callbacks = this._callbacks || {};
 
-            // all
-            if (0 == arguments.length) {
-                this._callbacks = {};
-                return this;
+            function apiBase() {
+                EventEmitter.call(this);
             }
+            apiBase.prototype = Object.create(EventEmitter.prototype);
+            apiBase.prototype.constructor = EventEmitter;
 
-            // specific event
-            var callbacks = this._callbacks['$' + event];
-            if (!callbacks) return this;
+            apiBase.prototype.inherited = function () {
+                return Promise.resolve('inherited method result');
+            };
 
-            // remove all handlers
-            if (1 == arguments.length) {
-                delete this._callbacks['$' + event];
-                return this;
-            }
-
-            return this;
-        };
-
-        EventEmitter.prototype.listenerCount = function (event) {
-            this._callbacks = this._callbacks || {};
-
-            // specific event
-            var callbacks = this._callbacks['$' + event];
-            if (!callbacks) return 0;
-
-            return callbacks.length;
-        };
-
-        EventEmitter.prototype.emit = function (event, var_args) {
-            this._callbacks = this._callbacks || {};
-            var_args = [].slice.call(arguments, 1);
-            var callbacks = this._callbacks['$' + event];
-
-            if (callbacks) {
-                callbacks = callbacks.slice(0);
-                for (var i = 0, len = callbacks.length; i < len; ++i) {
-                    callbacks[i].apply(this, var_args);
-                }
-            }
-
-            return this;
-        };
-
-        function emitter(obj) {
-            for (var prop in EventEmitter.prototype) {
-                Object.defineProperty(obj, prop, {
-                    configurable: true,
-                    writable: true,
-                    value: EventEmitter.prototype[prop]
+            api = new apiBase();
+            api.foo = function () {
+                return Promise.resolve('bar');
+            };
+            api.long = function () {
+                return new Promise(function (resolve) {
+                    setTimeout(function () {
+                        resolve('ok');
+                    }, 150);
                 });
+            };
+
+            api.emitEvent = function (event) {
+                return Promise.resolve().then(function () {
+                    api.emit(event);
+                })
             }
+
+            api.hasSourceWindowAsFirstParameter = function (source) {
+                return Promise.resolve(source === top);
+            }
+
+            //        emitter(api);
+            var addSourceToApiCallParam = window.location.search === '?addSourceToApiCall=true';
+            console.log(addSourceToApiCallParam);
+            pas.CreateServer(window, api, 'defaultToken', addSourceToApiCallParam);
         }
-
-
-        function apiBase() {
-            EventEmitter.call(this);
-        }
-        apiBase.prototype = Object.create(EventEmitter.prototype);
-        apiBase.prototype.constructor = EventEmitter;
-
-        apiBase.prototype.inherited = function () {
-            return Promise.resolve('inherited method result');
-        };
-
-        api = new apiBase();
-        api.foo =  function () {
-            return Promise.resolve('bar');
-        };
-        api.long =  function () {
-            return new Promise(function (resolve) {
-                setTimeout(function () {
-                    resolve('ok');
-                }, 150);
-            });
-        };
-
-        api.emitEvent = function(event){
-            return Promise.resolve().then(function() {
-                api.emit(event);
-            })
-        }
-
-//        emitter(api);
-
-        pas.CreateServer(window, api);
-    }
-
-</script>
+    </script>
 </body>
+
 </html>
