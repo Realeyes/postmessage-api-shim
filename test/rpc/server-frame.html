@@ -127,12 +127,15 @@
             }
 
             api.hasSourceWindowAsFirstParameter = function (source) {
-                return Promise.resolve(source === top);
+                return Promise.resolve(typeof source === 'undefined' ? false : source.window === source);
+            }
+
+            api.getAddSourceToApiCallParam = function () {
+               return Promise.resolve(addSourceToApiCallParam);
             }
 
             //        emitter(api);
             var addSourceToApiCallParam = window.location.search === '?addSourceToApiCall=true';
-            console.log(addSourceToApiCallParam);
             pas.CreateServer(window, api, 'defaultToken', addSourceToApiCallParam);
         }
     </script>

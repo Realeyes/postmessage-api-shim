@@ -11,7 +11,6 @@ import chai, {
 } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import async from 'async';
 chai.use(sinonChai);
 
 [true,false].forEach((param) => {
@@ -63,11 +62,14 @@ chai.use(sinonChai);
 					});
 				});
 
-				it(`should ${addSourceToApiCall ? '' : 'not'} first parameter be window`, done => {
-					client.hasSourceWindowAsFirstParameter().then(res => {
-						expect(res).to.equal(addSourceToApiCall);
-						done();
-					})
+				it(`should ${addSourceToApiCall ? '' : 'not'} first parameter be window`, (done) => {
+					client.getAddSourceToApiCallParam().then(res => {
+					    expect(res).to.equal(addSourceToApiCall);
+                        client.hasSourceWindowAsFirstParameter().then(res => {
+                            expect(res).to.equal(addSourceToApiCall);
+                            done();
+                        }).catch(e => done(e));
+					}).catch(e => done(e)) ;
 				})
 			});
 
