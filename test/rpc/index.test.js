@@ -14,7 +14,7 @@ import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
 [true,false].forEach((param) => {
-	describe('RPC integration', ((addSourceToApiCall) => {
+	describe(`RPC integration with addSourceToApiCall set to ${param}`, ((addSourceToApiCall) => {
 		return () => {
 			let serverFrame, client, server;
 
