@@ -40,7 +40,7 @@ chai.use(sinonChai);
 			describe('call', () => {
 				it('should return a Promise', () => {
 					// expect(client.foo()).to.be.an.instanceOf(Promise);
-					expect(client.foo().then).to.exists;
+					expect(client.foo().then).to.exist;
 				});
 
 				it('should throw exception on a call to nonexistent method', done => {
