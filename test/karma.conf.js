@@ -19,7 +19,26 @@ module.exports = function (config) {
         browserify: {
             debug: true,
             transform: [['babelify', {
-                "presets": ["@babel/preset-env"],
+                "presets": [
+                    [
+                        "@babel/preset-env",
+                        {
+                          "targets": {
+                            "browsers": [
+                              "edge >= 15",
+                              "ff >= 44",
+                              "chrome >= 56",
+                              "safari >= 11",
+                              "iOS >= 11",
+                              "opera >= 43",
+                              "and_chr >= 66",
+                              "android >= 66",
+                              "and_ff >= 60"
+                            ]
+                          }
+                        }
+                    ]
+                ],
                 global: true
             }]]
         },
@@ -115,7 +134,6 @@ module.exports = function (config) {
         },
         local_browsers: ['Chrome', 'Firefox', 'IE', 'Edge'],
         bs_browsers: [
-            'bs_ie_10_win',
             'bs_ie_11_win',
             'bs_edge_14_win',
             'bs_edge_15_win',
