@@ -5,7 +5,6 @@
  */
 
 
-const Promise = require('es6-promise-polyfill').Promise;
 import chai, {
 	expect
 } from 'chai';
