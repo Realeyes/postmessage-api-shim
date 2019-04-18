@@ -4,7 +4,6 @@ module.exports = function (config) {
         frameworks: ['mocha', 'browserify'],
         files: [
             'dist/*.js',
-            'node_modules/es6-promise-polyfill/*.js',
             'test/**/*.test.js',
             { pattern: 'test/rpc/server-frame.html', included: false }
         ],
@@ -18,7 +17,29 @@ module.exports = function (config) {
         },
         browserify: {
             debug: true,
-            transform: [['babelify', { 'presets': ['es2015'] }]]
+            transform: [['babelify', {
+                "presets": [
+                    [
+                        "@babel/preset-env",
+                        {
+                          "targets": {
+                            "browsers": [
+                              "edge >= 15",
+                              "ff >= 44",
+                              "chrome >= 56",
+                              "safari >= 11",
+                              "iOS >= 11",
+                              "opera >= 43",
+                              "and_chr >= 66",
+                              "android >= 66",
+                              "and_ff >= 60"
+                            ]
+                          }
+                        }
+                    ]
+                ],
+                global: true
+            }]]
         },
         reporters: ['spec', 'junit'],
         junitReporter: {
@@ -35,31 +56,17 @@ module.exports = function (config) {
             forcelocal: true,
         },
         customLaunchers: {
-            bs_ie_10_win: {
-                base: 'BrowserStack',
-                browser: 'ie',
-                browser_version: '10',
-                os: 'WINDOWS',
-                os_version: '8'
-            },
-            bs_ie_11_win: {
-                base: 'BrowserStack',
-                browser: 'ie',
-                browser_version: '11',
-                os: 'WINDOWS',
-                os_version: '10'
-            },
-            bs_edge_14_win: {
-                base: 'BrowserStack',
-                browser: 'edge',
-                browser_version: '14',
-                os: 'WINDOWS',
-                os_version: '10'
-            },
             bs_edge_15_win: {
                 base: 'BrowserStack',
                 browser: 'edge',
                 browser_version: '15',
+                os: 'WINDOWS',
+                os_version: '10'
+            },
+            bs_edge_17_win: {
+                base: 'BrowserStack',
+                browser: 'edge',
+                browser_version: '17',
                 os: 'WINDOWS',
                 os_version: '10'
             },
@@ -69,17 +76,17 @@ module.exports = function (config) {
                 os: 'WINDOWS',
                 os_version: '10'
             },
-            bs_chrome_58_win: {
+            bs_chrome_56_win: {
                 base: 'BrowserStack',
                 browser: 'chrome',
                 browser_version: '58',
                 os: 'WINDOWS',
                 os_version: '10'
             },
-            bs_chrome_59_win: {
+            bs_chrome_72_win: {
                 base: 'BrowserStack',
                 browser: 'chrome',
-                browser_version: '59',
+                browser_version: '72',
                 os: 'WINDOWS',
                 os_version: '10'
             },
@@ -89,17 +96,17 @@ module.exports = function (config) {
                 os: 'WINDOWS',
                 os_version: '10'
             },
-            bs_firefox_53_win: {
+            bs_firefox_44_win: {
                 base: 'BrowserStack',
                 browser: 'firefox',
-                browser_version: '53',
+                browser_version: '44',
                 os: 'WINDOWS',
                 os_version: '10'
             },
-            bs_firefox_54_win: {
+            bs_firefox_65_win: {
                 base: 'BrowserStack',
                 browser: 'firefox',
-                browser_version: '54',
+                browser_version: '65',
                 os: 'WINDOWS',
                 os_version: '10'
             },
@@ -110,18 +117,16 @@ module.exports = function (config) {
                 os_version: '10'
             },
         },
-        local_browsers: ['Chrome', 'Firefox', 'IE', 'Edge'],
+        local_browsers: ['Chrome', 'Firefox', 'Edge'],
         bs_browsers: [
-            'bs_ie_10_win',
-            'bs_ie_11_win',
-            'bs_edge_14_win',
             'bs_edge_15_win',
+            'bs_edge_17_win',
             'bs_edge_latest_win',
-            'bs_chrome_58_win',
-            'bs_chrome_59_win',
+            'bs_chrome_56_win',
+            'bs_chrome_72_win',
             'bs_chrome_latest_win',
-            'bs_firefox_53_win',
-            'bs_firefox_54_win',
+            'bs_firefox_44_win',
+            'bs_firefox_65_win',
             'bs_firefox_latest_win'
         ],
     });
