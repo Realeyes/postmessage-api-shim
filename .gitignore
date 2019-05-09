@@ -4,3 +4,4 @@
 version.txt
 node_modules/
 test-reports/
+.babelrc
