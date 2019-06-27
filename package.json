@@ -10,29 +10,7 @@
   "browserify": {
     "transform": [
       [
-        "babelify",
-        {
-          "presets": [
-            [
-              "@babel/preset-env",
-              {
-                "targets": {
-                  "browsers": [
-                    "edge >= 15",
-                    "ff >= 44",
-                    "chrome >= 56",
-                    "safari >= 11",
-                    "iOS >= 11",
-                    "opera >= 43",
-                    "and_chr >= 66",
-                    "android >= 66",
-                    "and_ff >= 60"
-                  ]
-                }
-              }
-            ]
-          ]
-        }
+        "babelify"
       ]
     ]
   },
